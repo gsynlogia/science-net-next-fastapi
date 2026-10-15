@@ -2,7 +2,10 @@
 
 from functools import lru_cache
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+JWT_SECRET_MIN_LENGTH = 32
 
 
 class Settings(BaseSettings):
@@ -14,6 +17,8 @@ class Settings(BaseSettings):
     app_version: str = "1.0.0"
     database_url: str
     test_database_url: str | None = None
+    jwt_secret: str = Field(min_length=JWT_SECRET_MIN_LENGTH)
+    jwt_expire_minutes: int = 60
 
 
 @lru_cache(maxsize=1)

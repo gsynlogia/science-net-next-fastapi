@@ -5,12 +5,14 @@ from collections.abc import Iterator
 import pytest
 from alembic import command
 from alembic.config import Config
+from fastapi.testclient import TestClient
 from sqlalchemy import Engine, text
 from sqlalchemy.engine import make_url
 from sqlalchemy.orm import Session
 
 from app.config import get_settings
-from app.db.session import build_engine
+from app.db.session import build_engine, get_session
+from app.main import app
 
 
 def ensure_database(url: str) -> None:
@@ -51,3 +53,11 @@ def db(engine: Engine) -> Iterator[Session]:
     session.close()
     transaction.rollback()
     connection.close()
+
+
+@pytest.fixture
+def client(db: Session) -> Iterator[TestClient]:
+    """Klient API używający sesji `db`, więc zmiany z żądań znikają po teście."""
+    app.dependency_overrides[get_session] = lambda: db
+    yield TestClient(app)
+    app.dependency_overrides.clear()

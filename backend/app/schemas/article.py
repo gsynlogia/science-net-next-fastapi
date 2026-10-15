@@ -7,6 +7,7 @@ from urllib.parse import urlparse
 from pydantic import BaseModel, Field, StringConstraints, field_validator
 
 from app.schemas.common import FieldSlug
+from app.schemas.user import UserBrief
 
 TITLE_MIN_LENGTH = 5
 TITLE_MAX_LENGTH = 200
@@ -28,14 +29,6 @@ Abstract = Annotated[
         strip_whitespace=True, min_length=ABSTRACT_MIN_LENGTH, max_length=ABSTRACT_MAX_LENGTH
     ),
 ]
-
-
-class UserBrief(BaseModel):
-    """Skrót danych użytkownika."""
-
-    id: int
-    full_name: str
-    affiliation: str | None
 
 
 class ArticleCreate(BaseModel):
