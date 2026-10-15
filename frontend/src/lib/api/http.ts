@@ -1,9 +1,15 @@
 import { z } from "zod";
 import { getAccessToken } from "@/lib/auth/tokenStore";
 import type { ArticleInput, LoginInput, RegisterInput } from "@/lib/domain/types";
-import type { ApiClient, ListArticlesParams } from "./client";
+import type { ApiClient, ListArticlesParams, ListCommentsParams } from "./client";
 import { ApiError, HttpStatus, NETWORK_ERROR_STATUS } from "./errors";
-import { articleSchema, authSessionSchema, currentUserSchema, pageSchema } from "./schemas";
+import {
+  articleSchema,
+  authSessionSchema,
+  commentSchema,
+  currentUserSchema,
+  pageSchema,
+} from "./schemas";
 
 const API_PREFIX = "/api";
 const NETWORK_ERROR_MESSAGE = "Brak połączenia z serwerem. Spróbuj ponownie.";
@@ -15,6 +21,7 @@ const errorBodySchema = z.object({
 });
 
 const articlePageSchema = pageSchema(articleSchema);
+const commentPageSchema = pageSchema(commentSchema);
 
 interface RequestOptions {
   method?: "GET" | "POST" | "PUT" | "DELETE";
@@ -114,5 +121,17 @@ export class HttpApi implements ApiClient {
 
   removeReaction(articleId: number) {
     return request(`/articles/${articleId}/reaction`, articleSchema, { method: "DELETE" });
+  }
+
+  listComments({ articleId, cursor }: ListCommentsParams) {
+    const query = cursor === null ? "" : `?cursor=${encodeURIComponent(cursor)}`;
+    return request(`/articles/${articleId}/comments${query}`, commentPageSchema);
+  }
+
+  addComment(articleId: number, body: string) {
+    return request(`/articles/${articleId}/comments`, commentSchema, {
+      method: "POST",
+      json: { body },
+    });
   }
 }

@@ -1,6 +1,13 @@
 import { z } from "zod";
 import { FIELD_SLUGS } from "@/lib/domain/fields";
-import type { Article, AuthSession, CurrentUser, Page, UserBrief } from "@/lib/domain/types";
+import type {
+  Article,
+  AuthSession,
+  Comment,
+  CurrentUser,
+  Page,
+  UserBrief,
+} from "@/lib/domain/types";
 
 const fieldSchema = z.enum(FIELD_SLUGS);
 
@@ -35,6 +42,13 @@ export const articleSchema = z.object({
   comments_count: z.number(),
   reacted_by_me: z.boolean(),
 }) satisfies z.ZodType<Article>;
+
+export const commentSchema = z.object({
+  id: z.number(),
+  body: z.string(),
+  created_at: z.string(),
+  author: userBriefSchema,
+}) satisfies z.ZodType<Comment>;
 
 export const authSessionSchema = z.object({
   access_token: z.string(),

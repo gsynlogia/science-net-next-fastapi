@@ -3,6 +3,7 @@ import type {
   Article,
   ArticleInput,
   AuthSession,
+  Comment,
   CurrentUser,
   LoginInput,
   Page,
@@ -15,6 +16,11 @@ export interface ListArticlesParams {
   query: string;
 }
 
+export interface ListCommentsParams {
+  articleId: number;
+  cursor: string | null;
+}
+
 export interface ApiClient {
   register(input: RegisterInput): Promise<AuthSession>;
   login(input: LoginInput): Promise<AuthSession>;
@@ -24,4 +30,6 @@ export interface ApiClient {
   createArticle(input: ArticleInput): Promise<Article>;
   addReaction(articleId: number): Promise<Article>;
   removeReaction(articleId: number): Promise<Article>;
+  listComments(params: ListCommentsParams): Promise<Page<Comment>>;
+  addComment(articleId: number, body: string): Promise<Comment>;
 }
