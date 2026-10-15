@@ -17,7 +17,7 @@ const errorBodySchema = z.object({
 const articlePageSchema = pageSchema(articleSchema);
 
 interface RequestOptions {
-  method?: "GET" | "POST";
+  method?: "GET" | "POST" | "PUT" | "DELETE";
   json?: unknown;
 }
 
@@ -106,5 +106,13 @@ export class HttpApi implements ApiClient {
 
   createArticle(input: ArticleInput) {
     return request("/articles", articleSchema, { method: "POST", json: input });
+  }
+
+  addReaction(articleId: number) {
+    return request(`/articles/${articleId}/reaction`, articleSchema, { method: "PUT" });
+  }
+
+  removeReaction(articleId: number) {
+    return request(`/articles/${articleId}/reaction`, articleSchema, { method: "DELETE" });
   }
 }

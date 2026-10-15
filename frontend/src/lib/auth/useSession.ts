@@ -27,6 +27,7 @@ export function useSession() {
   const signIn = async (token: string): Promise<void> => {
     setAccessToken(token);
     await queryClient.invalidateQueries({ queryKey: queryKeys.me });
+    await queryClient.invalidateQueries({ queryKey: queryKeys.articles });
   };
 
   const signOut = (): void => {

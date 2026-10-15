@@ -22,4 +22,6 @@ export interface ApiClient {
   listArticles(params: ListArticlesParams): Promise<Page<Article>>;
   getArticle(id: number): Promise<Article>;
   createArticle(input: ArticleInput): Promise<Article>;
+  addReaction(articleId: number): Promise<Article>;
+  removeReaction(articleId: number): Promise<Article>;
 }

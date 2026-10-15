@@ -13,12 +13,7 @@ export function FeedList({ articles }: FeedListProps) {
         <ArticleCard
           key={article.id}
           article={article}
-          actions={
-            <ReactionButton
-              initialActive={article.reacted_by_me}
-              initialCount={article.reactions_count}
-            />
-          }
+          actions={<ReactionButton article={article} />}
         />
       ))}
     </div>

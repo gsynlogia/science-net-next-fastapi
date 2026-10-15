@@ -26,12 +26,7 @@ export function ArticleDetail({ id }: ArticleDetailProps) {
     <ArticleCard
       article={article.data}
       detailed
-      actions={
-        <ReactionButton
-          initialActive={article.data.reacted_by_me}
-          initialCount={article.data.reactions_count}
-        />
-      }
+      actions={<ReactionButton article={article.data} />}
     />
   );
 }
