@@ -13,8 +13,7 @@ export default defineConfig({
     include: ["tests/**/*.test.{ts,tsx}"],
     coverage: {
       provider: "v8",
-      include: ["src/lib/**/*.ts"],
-      exclude: ["src/lib/hooks/**", "src/lib/auth/useSession.ts"],
+      include: ["src/**/*.{ts,tsx}"],
       thresholds: { 100: true },
     },
   },
