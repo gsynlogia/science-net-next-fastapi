@@ -43,3 +43,25 @@ export interface Page<T> {
   items: T[];
   next_cursor: string | null;
 }
+
+export interface AuthSession {
+  access_token: string;
+  token_type: "bearer";
+}
+
+export interface LoginInput {
+  email: string;
+  password: string;
+}
+
+export interface RegisterInput extends LoginInput {
+  full_name: string;
+}
+
+export interface ArticleInput {
+  title: string;
+  abstract: string;
+  field: FieldSlug;
+  tags: string[];
+  full_text_url: string | null;
+}
