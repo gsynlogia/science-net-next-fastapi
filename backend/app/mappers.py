@@ -1,9 +1,10 @@
 """Mappery: zamieniają obiekty bazy na modele odpowiedzi API."""
 
-from app.models import User
+from app.models import Comment, User
 from app.repositories.articles import ArticleRecord
 from app.repositories.users import UserRecord
 from app.schemas.article import ArticleRead
+from app.schemas.comment import CommentRead
 from app.schemas.common import FieldSlug
 from app.schemas.user import CurrentUser, UserBrief, UserProfile
 
@@ -48,4 +49,14 @@ def to_article_read(record: ArticleRecord) -> ArticleRead:
         reactions_count=record.reactions_count,
         comments_count=record.comments_count,
         reacted_by_me=record.reacted_by_me,
+    )
+
+
+def to_comment_read(comment: Comment) -> CommentRead:
+    """Buduje odpowiedź z komentarza i jego autora."""
+    return CommentRead(
+        id=comment.id,
+        body=comment.body,
+        created_at=comment.created_at,
+        author=to_brief(comment.author),
     )
