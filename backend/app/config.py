@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     test_database_url: str | None = None
     jwt_secret: str = Field(min_length=JWT_SECRET_MIN_LENGTH)
     jwt_expire_minutes: int = 60
+    ollama_url: str = "http://localhost:11434"
+    ollama_model: str = "gemma2:2b"
+    ai_timeout_seconds: float = 120.0
 
 
 @lru_cache(maxsize=1)
