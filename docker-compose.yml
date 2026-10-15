@@ -1,0 +1,21 @@
+name: science-net-next
+
+services:
+  db:
+    image: postgres:17.11
+    environment:
+      POSTGRES_USER: sciencenet
+      POSTGRES_PASSWORD: sciencenet
+      POSTGRES_DB: sciencenet
+    ports:
+      - "5433:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sciencenet -d sciencenet"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  db-data:
