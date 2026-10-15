@@ -27,6 +27,7 @@ const commentPageSchema = pageSchema(commentSchema);
 interface RequestOptions {
   method?: "GET" | "POST" | "PUT" | "DELETE";
   json?: unknown;
+  signal?: AbortSignal;
 }
 
 async function readErrorMessage(response: Response): Promise<string> {
@@ -39,7 +40,10 @@ async function readErrorMessage(response: Response): Promise<string> {
   return typeof detail === "string" ? detail : (detail[0]?.msg ?? UNKNOWN_ERROR_MESSAGE);
 }
 
-async function send(path: string, { method = "GET", json }: RequestOptions): Promise<Response> {
+export async function send(
+  path: string,
+  { method = "GET", json, signal }: RequestOptions,
+): Promise<Response> {
   const headers = new Headers();
   const token = getAccessToken();
   if (token !== null) {
@@ -53,6 +57,7 @@ async function send(path: string, { method = "GET", json }: RequestOptions): Pro
     response = await fetch(`${API_PREFIX}${path}`, {
       method,
       headers,
+      signal,
       body: json === undefined ? undefined : JSON.stringify(json),
     });
   } catch {

@@ -1,6 +1,7 @@
 "use client";
 
 import { ArticleCard } from "@/components/ArticleCard";
+import { ArticleSummary } from "@/components/ArticleSummary";
 import { CommentsSection } from "@/components/CommentsSection";
 import { ReactionButton } from "@/components/ReactionButton";
 import { useArticle } from "@/lib/hooks/useArticle";
@@ -30,6 +31,7 @@ export function ArticleDetail({ id }: ArticleDetailProps) {
         detailed
         actions={<ReactionButton article={article.data} />}
       />
+      <ArticleSummary articleId={id} />
       <CommentsSection articleId={id} />
     </>
   );
