@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { Navbar } from "@/components/Navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -10,7 +11,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pl">
-      <body className="min-h-screen">{children}</body>
+      <body className="min-h-screen">
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }
