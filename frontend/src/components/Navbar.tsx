@@ -30,6 +30,9 @@ function SessionMenu() {
   return (
     <div className="ml-auto flex items-center gap-4 text-sm">
       <span className="font-medium text-slate-700">{user.full_name}</span>
+      <Link href="/articles/new" className="text-brand-600 hover:underline">
+        Nowy artykuł
+      </Link>
       <button type="button" onClick={signOut} className="text-slate-600 hover:text-accent-600">
         Wyloguj
       </button>
