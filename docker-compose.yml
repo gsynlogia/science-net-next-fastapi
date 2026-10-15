@@ -29,6 +29,41 @@ services:
       timeout: 5s
       retries: 20
 
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://sciencenet:sciencenet@db:5432/sciencenet
+      JWT_SECRET: ${JWT_SECRET:?Ustaw JWT_SECRET w pliku .env}
+      OLLAMA_URL: http://ollama:11434
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        BACKEND_URL: http://backend:8000
+    environment:
+      BACKEND_URL: http://backend:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
 volumes:
   db-data:
   ollama-models:

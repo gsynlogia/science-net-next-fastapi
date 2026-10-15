@@ -8,6 +8,7 @@ if (!backendUrl) {
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  output: "standalone",
   async rewrites() {
     return [{ source: "/api/:path*", destination: `${backendUrl}/api/:path*` }];
   },
