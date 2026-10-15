@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "O portalu — Science Net",
+  title: "O portalu",
 };
 
 export default function AboutPage() {

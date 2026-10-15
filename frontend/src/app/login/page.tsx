@@ -3,7 +3,7 @@ import Link from "next/link";
 import { LoginForm } from "@/components/LoginForm";
 
 export const metadata: Metadata = {
-  title: "Logowanie — Science Net",
+  title: "Logowanie",
 };
 
 export default function LoginPage() {

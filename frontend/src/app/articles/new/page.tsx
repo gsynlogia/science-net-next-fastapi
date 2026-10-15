@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ArticleForm } from "@/components/ArticleForm";
 
 export const metadata: Metadata = {
-  title: "Nowy artykuł — Science Net",
+  title: "Nowy artykuł",
 };
 
 export default function NewArticlePage() {

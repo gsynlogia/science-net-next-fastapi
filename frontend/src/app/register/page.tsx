@@ -3,7 +3,7 @@ import Link from "next/link";
 import { RegisterForm } from "@/components/RegisterForm";
 
 export const metadata: Metadata = {
-  title: "Rejestracja — Science Net",
+  title: "Rejestracja",
 };
 
 export default function RegisterPage() {

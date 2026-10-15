@@ -5,7 +5,7 @@ import { Providers } from "@/components/Providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Science Net",
+  title: { default: "Science Net", template: "%s · Science Net" },
   description: "Portal społecznościowy dla ludzi nauki",
 };
 
