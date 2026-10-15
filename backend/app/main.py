@@ -3,7 +3,7 @@
 from fastapi import FastAPI
 
 from app.config import get_settings
-from app.routers import health
+from app.routers import fields, health
 
 API_PREFIX = "/api"
 
@@ -20,6 +20,7 @@ def create_app() -> FastAPI:
         redoc_url=None,
     )
     application.include_router(health.router, prefix=API_PREFIX)
+    application.include_router(fields.router, prefix=API_PREFIX)
     return application
 
 
