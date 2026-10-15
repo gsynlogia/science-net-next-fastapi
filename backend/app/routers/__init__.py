@@ -1,0 +1,1 @@
+"""Routery HTTP (endpointy) aplikacji."""
