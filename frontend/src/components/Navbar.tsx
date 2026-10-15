@@ -2,11 +2,40 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "@/lib/auth/useSession";
 
 const NAV_LINKS = [
   { href: "/", label: "Tablica" },
   { href: "/about", label: "O portalu" },
 ] as const;
+
+function SessionMenu() {
+  const { user, isLoading, signOut } = useSession();
+
+  if (isLoading) {
+    return null;
+  }
+  if (user === null) {
+    return (
+      <div className="ml-auto flex items-center gap-4 text-sm">
+        <Link href="/login" className="text-slate-600">
+          Zaloguj się
+        </Link>
+        <Link href="/register" className="rounded-md bg-brand-600 px-3 py-1.5 text-white">
+          Załóż konto
+        </Link>
+      </div>
+    );
+  }
+  return (
+    <div className="ml-auto flex items-center gap-4 text-sm">
+      <span className="font-medium text-slate-700">{user.full_name}</span>
+      <button type="button" onClick={signOut} className="text-slate-600 hover:text-accent-600">
+        Wyloguj
+      </button>
+    </div>
+  );
+}
 
 export function Navbar() {
   const pathname = usePathname();
@@ -26,6 +55,7 @@ export function Navbar() {
             {link.label}
           </Link>
         ))}
+        <SessionMenu />
       </nav>
     </header>
   );
