@@ -1,4 +1,4 @@
 import type { ApiClient } from "./client";
-import { MockApi } from "./mock";
+import { HttpApi } from "./http";
 
-export const api: ApiClient = new MockApi();
+export const api: ApiClient = new HttpApi();
