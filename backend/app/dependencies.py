@@ -9,11 +9,13 @@ from sqlalchemy.orm import Session
 
 from app.db.session import get_session
 from app.models import User
+from app.repositories.articles import ArticleRecord, ArticleRepository
 from app.repositories.users import UserRepository
 from app.security import decode_access_token
 
 UNAUTHORIZED_MESSAGE = "Zaloguj się, aby kontynuować."
 BEARER_CHALLENGE = {"WWW-Authenticate": "Bearer"}
+ARTICLE_NOT_FOUND_MESSAGE = "Nie znaleziono artykułu."
 
 bearer_scheme = HTTPBearer(auto_error=False)
 SessionDep = Annotated[Session, Depends(get_session)]
@@ -52,3 +54,11 @@ def get_current_user(user: Annotated[User | None, Depends(get_optional_user)]) -
 
 OptionalUserDep = Annotated[User | None, Depends(get_optional_user)]
 CurrentUserDep = Annotated[User, Depends(get_current_user)]
+
+
+def get_article_or_404(session: Session, article_id: int, viewer_id: int | None) -> ArticleRecord:
+    """Zwraca artykuł z licznikami dla oglądającego albo zgłasza 404."""
+    record = ArticleRepository(session).get(article_id, viewer_id)
+    if record is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, ARTICLE_NOT_FOUND_MESSAGE)
+    return record
