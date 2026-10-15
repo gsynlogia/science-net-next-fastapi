@@ -7,6 +7,7 @@ import type {
   CurrentUser,
   Page,
   UserBrief,
+  UserProfile,
 } from "@/lib/domain/types";
 
 const fieldSchema = z.enum(FIELD_SLUGS);
@@ -19,13 +20,19 @@ const userBriefShape = {
 
 const userBriefSchema = z.object(userBriefShape) satisfies z.ZodType<UserBrief>;
 
-export const currentUserSchema = z.object({
+const userProfileShape = {
   ...userBriefShape,
   field: fieldSchema.nullable(),
   bio: z.string().nullable(),
   followers_count: z.number(),
   followed_by_me: z.boolean(),
   created_at: z.string(),
+};
+
+export const userProfileSchema = z.object(userProfileShape) satisfies z.ZodType<UserProfile>;
+
+export const currentUserSchema = z.object({
+  ...userProfileShape,
   email: z.string(),
 }) satisfies z.ZodType<CurrentUser>;
 

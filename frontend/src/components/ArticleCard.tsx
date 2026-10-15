@@ -18,7 +18,9 @@ export function ArticleCard({ article, actions, detailed = false }: ArticleCardP
       <header className="flex items-center gap-3">
         <Avatar name={article.author.full_name} />
         <div>
-          <p className="font-semibold">{article.author.full_name}</p>
+          <Link href={`/users/${article.author.id}`} className="font-semibold hover:underline">
+            {article.author.full_name}
+          </Link>
           <p className="text-xs text-slate-500">
             {article.author.affiliation ?? "Brak afiliacji"} · {formatDate(article.created_at)}
           </p>

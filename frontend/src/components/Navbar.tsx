@@ -29,7 +29,9 @@ function SessionMenu() {
   }
   return (
     <div className="ml-auto flex items-center gap-4 text-sm">
-      <span className="font-medium text-slate-700">{user.full_name}</span>
+      <Link href={`/users/${user.id}`} className="font-medium text-slate-700 hover:underline">
+        {user.full_name}
+      </Link>
       <Link href="/articles/new" className="text-brand-600 hover:underline">
         Nowy artykuł
       </Link>

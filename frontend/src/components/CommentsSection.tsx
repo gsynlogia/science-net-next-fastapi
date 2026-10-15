@@ -2,6 +2,7 @@
 
 import { Avatar } from "@/components/Avatar";
 import { CommentForm } from "@/components/CommentForm";
+import Link from "next/link";
 import { formatDate } from "@/lib/format";
 import { useComments } from "@/lib/hooks/useComments";
 
@@ -34,7 +35,12 @@ export function CommentsSection({ articleId }: CommentsSectionProps) {
             <Avatar name={comment.author.full_name} />
             <div>
               <p className="text-sm text-slate-500">
-                <span className="font-semibold text-slate-800">{comment.author.full_name}</span>
+                <Link
+                  href={`/users/${comment.author.id}`}
+                  className="font-semibold text-slate-800 hover:underline"
+                >
+                  {comment.author.full_name}
+                </Link>
                 {" · "}
                 {formatDate(comment.created_at)}
               </p>

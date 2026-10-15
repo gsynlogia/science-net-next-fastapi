@@ -9,6 +9,7 @@ import {
   commentSchema,
   currentUserSchema,
   pageSchema,
+  userProfileSchema,
 } from "./schemas";
 
 const API_PREFIX = "/api";
@@ -76,7 +77,7 @@ async function request<Schema extends z.ZodType>(
   return parsed.data;
 }
 
-function listQuery({ cursor, field, query }: ListArticlesParams): string {
+function listQuery({ cursor, field, query, authorId }: ListArticlesParams): string {
   const params = new URLSearchParams();
   if (cursor !== null) {
     params.set("cursor", cursor);
@@ -86,6 +87,9 @@ function listQuery({ cursor, field, query }: ListArticlesParams): string {
   }
   if (query.trim() !== "") {
     params.set("q", query.trim());
+  }
+  if (authorId !== null) {
+    params.set("author_id", String(authorId));
   }
   return params.toString();
 }
@@ -133,5 +137,17 @@ export class HttpApi implements ApiClient {
       method: "POST",
       json: { body },
     });
+  }
+
+  getUser(id: number) {
+    return request(`/users/${id}`, userProfileSchema);
+  }
+
+  followUser(id: number) {
+    return request(`/users/${id}/follow`, userProfileSchema, { method: "PUT" });
+  }
+
+  unfollowUser(id: number) {
+    return request(`/users/${id}/follow`, userProfileSchema, { method: "DELETE" });
   }
 }
